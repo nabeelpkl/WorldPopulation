@@ -5,6 +5,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { PopulationListItem, Seperator } from "../components/List";
 
 class PopulationDetails extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: `${navigation.state.params.country ? navigation.state.params.country : ""}`,
+  });
 
   componentWillMount() {
     const { populationStore } = this.props;
