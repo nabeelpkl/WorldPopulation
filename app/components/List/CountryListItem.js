@@ -11,7 +11,7 @@ const CountryListItem = ({ item, onPress }) => {
     return (
         <TouchableHighlight onPress={onPress} underlayColor={styles.$underlayColor}>
             <View style={{ margin: 12 }}>
-                <Text style={{ fontSize: 14, fontWeight: 'bold', }}>
+                <Text style={{ fontSize: 14, fontFamily: "Roboto", }}>
                     {item}
                 </Text>
             </View>

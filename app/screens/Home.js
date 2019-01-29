@@ -42,22 +42,24 @@ class Home extends React.Component {
 
   renderHeader = () => {
     return (
-      <View style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center", borderRadius: 4, flex: 1 }}>
-        <Image
-          style={{ width: 16, height: 16, marginHorizontal: 8 }}
-          source={require('./icons/search.png')}
-        />
-        <TextInput
-          placeholder="Search"
-          onChangeText={text => this.searchFilterFunction(text)}
-          autoCapitalize="none"
-          autoCorrect={false}
-          autoFocus
-          style={{ height: 40, flex: 1 }}
-          multiline={false}
-          returnKeyLabel="Search"
-          returnKeyType="search"
-        />
+      <View style={{ backgroundColor: "gray", padding: 4 }}>
+        <View style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center", borderRadius: 4, flex: 1 }}>
+          <Image
+            style={{ width: 16, height: 16, marginHorizontal: 8, fontFamily: "Roboto" }}
+            source={require('./icons/search.png')}
+          />
+          <TextInput
+            placeholder="Search"
+            onChangeText={text => this.searchFilterFunction(text)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            autoFocus
+            style={{ height: 40, flex: 1 }}
+            multiline={false}
+            returnKeyLabel="Search"
+            returnKeyType="search"
+          />
+        </View>
       </View>
     );
   };
