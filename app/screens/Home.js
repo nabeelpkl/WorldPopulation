@@ -2,27 +2,27 @@ import React from "react";
 import { View, FlatList, ActivityIndicator } from "react-native";
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { inject, observer } from "mobx-react";
-import { ListItem, Seperator } from "../components/List";
+import { CountryListItem, Seperator } from "../components/List";
 
 class Home extends React.Component {
 
   componentWillMount() {
-    const { populationStore } = this.props;
-    populationStore.loadCountries();
+    const { countriesStore } = this.props;
+    countriesStore.loadCountries();
   }
 
   render() {
-    const { populationStore } = this.props;
+    const { countriesStore } = this.props;
 
     return (
       <View style={{ justifyContent: "center" }}>
-        {populationStore.loading ? (
+        {countriesStore.loading ? (
           <ActivityIndicator size="large" color={EStyleSheet.value('$colorPrimaryDark')} />
         ) : (
             <FlatList
-              data={populationStore.countries}
+              data={countriesStore.countries}
               renderItem={({ item }) =>
-                <ListItem
+                <CountryListItem
                   item={item}
                   onPress={() => this.handleItemPress(item)}
                 />
@@ -37,12 +37,13 @@ class Home extends React.Component {
   }
 
   handleItemPress = (country) => {
+    const { navigation } = this.props;
     console.log(`clicking `, country);
-
+    navigation.navigate('Details', { country });
   };
 }
 
 export default inject((stores, props) => {
-  const { populationStore } = stores;
-  return { populationStore };
+  const { countriesStore } = stores;
+  return { countriesStore };
 })(observer(Home));

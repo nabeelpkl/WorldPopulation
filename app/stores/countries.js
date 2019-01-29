@@ -1,7 +1,7 @@
 import { decorate, flow, observable } from "mobx";
 import { ApiRequest } from "utils";
 
-class Population {
+class Countries {
   constructor() {
     this.loading = false;
     this.loaded = false;
@@ -15,7 +15,7 @@ class Population {
     try {
       this.loading = true;
       this.loaded = false;
-      const response = yield ApiRequest.request("/countries", this.path, { action: "GET" });
+      const response = yield ApiRequest.request("/countries", "", { action: "GET" });
       this.countries = response.countries;
       this.loaded = true;
       this.loading = false;
@@ -28,7 +28,7 @@ class Population {
   }
 }
 
-decorate(Population, {
+decorate(Countries, {
   loaded: observable,
   loading: observable,
   contents: observable,
@@ -36,5 +36,5 @@ decorate(Population, {
   errorMessage: observable,
 });
 
-export default new Population();
+export default new Countries();
 

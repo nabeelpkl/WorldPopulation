@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import styles from "./styles";
 
-const ListItem = ({ item, onPress }) => {
+const CountryListItem = ({ item, onPress }) => {
     const { name, mobile, lastDonateDate, nextDonateDate, recentDonor, bloodGroup, available } = item;
 
     return (
@@ -21,9 +21,9 @@ const ListItem = ({ item, onPress }) => {
 
 // backgroundColor={EStyleSheet.value('$white')}
 
-ListItem.propTypes = {
+CountryListItem.propTypes = {
     item: PropTypes.object,
     onPress: PropTypes.func,
 }
 
-export default ListItem;
+export default CountryListItem;
