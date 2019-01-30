@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, ActivityIndicator, FlatList } from "react-native";
 import { inject, observer } from "mobx-react";
 import EStyleSheet from 'react-native-extended-stylesheet';
+import PropTypes from "prop-types";
 import { PopulationListItem, Seperator } from "../components/List";
-
 class PopulationDetails extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: `${navigation.state.params.country ? navigation.state.params.country : ""}`,
@@ -16,7 +16,7 @@ class PopulationDetails extends React.Component {
 
   render() {
     const { populationStore } = this.props;
-    console.log("population details", populationStore, populationStore.populationTable.length);
+
     return (
       <View>
         {populationStore.loading ? (
@@ -37,14 +37,20 @@ class PopulationDetails extends React.Component {
       </View>
     );
   }
-
 }
 
+PopulationDetails.propTypes = {
+  populationStore: PropTypes.object.isRequired,
+};
+
+
+const styles = EStyleSheet.create({
+  
+});
 export default inject((stores, props) => {
   const { populationDetailsStore } = stores;
   const { navigation } = props;
   const country = navigation.getParam("country");
-
   const populationStore = populationDetailsStore.getPopulationByCountry(country);
 
   return { populationStore };

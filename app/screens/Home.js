@@ -6,7 +6,7 @@ import { CountryListItem, Seperator } from "../components/List";
 
 class Home extends React.Component {
   static navigationOptions = () => ({
-    title: "World Population"
+    title: "World Population",
   });
 
   componentWillMount() {
@@ -18,7 +18,7 @@ class Home extends React.Component {
     const { countriesStore } = this.props;
 
     return (
-      <View style={{ justifyContent: "center", paddingTop: 12 }}>
+      <View style={styles.parentContainer}>
         {countriesStore.loading ? (
           <ActivityIndicator size="large" color={EStyleSheet.value('$colorPrimaryDark')} />
         ) : (
@@ -34,18 +34,16 @@ class Home extends React.Component {
               ItemSeparatorComponent={Seperator}
               ListHeaderComponent={this.renderHeader} />
           )}
-
-
       </View>
     );
   }
 
   renderHeader = () => {
     return (
-      <View style={{ backgroundColor: "gray", padding: 4 }}>
-        <View style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center", borderRadius: 4, flex: 1 }}>
+      <View style={styles.searchHeaderContainer}>
+        <View style={styles.searchHeaderRow}>
           <Image
-            style={{ width: 16, height: 16, marginHorizontal: 8, fontFamily: "Roboto" }}
+            style={styles.searchHeaderIcon}
             source={require('./icons/search.png')}
           />
           <TextInput
@@ -54,7 +52,7 @@ class Home extends React.Component {
             autoCapitalize="none"
             autoCorrect={false}
             autoFocus
-            style={{ height: 40, flex: 1 }}
+            style={styles.searchHeaderTextInput}
             multiline={false}
             returnKeyLabel="Search"
             returnKeyType="search"
@@ -82,6 +80,32 @@ class Home extends React.Component {
   };
 }
 
+const styles = EStyleSheet.create({
+  searchHeaderContainer: {
+    backgroundColor: "gray",
+    padding: 4,
+  },
+  searchHeaderRow: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    alignItems: "center",
+    borderRadius: 4,
+    flex: 1,
+  },
+  searchHeaderIcon: {
+    width: 16,
+    height: 16,
+    marginHorizontal: 8,
+    fontFamily: "Roboto",
+  },
+  searchHeaderTextInput: {
+    height: 40,
+    flex: 1,
+  },
+  parentContainer: {
+    justifyContent: "center"
+  }
+});
 export default inject((stores, props) => {
   const { countriesStore } = stores;
   return { countriesStore };
