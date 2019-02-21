@@ -1,29 +1,33 @@
 import React from "react";
 import { View, FlatList, ActivityIndicator, TextInput, Image } from "react-native";
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { inject, observer } from "mobx-react";
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 import { CountryListItem, Seperator } from "../components/List";
+import { getCountriesList, searchCountry } from "../actions/countries";
 
 class Home extends React.Component {
   static navigationOptions = () => ({
     title: "World Population",
   });
 
-  componentWillMount() {
-    const { countriesStore } = this.props;
-    countriesStore.loadCountries();
+  constructor(props) {
+    super(props);
+
+    this.props.dispatch(getCountriesList());
+    console.log(getCountriesList());
   }
 
   render() {
-    const { countriesStore } = this.props;
+    const { isFetching, countries, reducedCountries } = this.props;
 
     return (
       <View style={styles.parentContainer}>
-        {countriesStore.loading ? (
+        {isFetching ? (
           <ActivityIndicator size="large" color={EStyleSheet.value('$colorPrimaryDark')} />
         ) : (
             <FlatList
-              data={countriesStore.tempCountries}
+              data={reducedCountries}
               renderItem={({ item }) =>
                 <CountryListItem
                   item={item}
@@ -62,16 +66,8 @@ class Home extends React.Component {
     );
   };
 
-  searchFilterFunction = text => {
-    const { countriesStore } = this.props;
-    const newData = countriesStore.countries.filter(item => {
-      const itemData = item.toUpperCase();
-      const textData = text.toUpperCase();
-
-      return itemData.indexOf(textData) > -1;
-    });
-
-    countriesStore.onSearchCountries(newData);
+  searchFilterFunction = query => {
+    this.props.dispatch(searchCountry(query));
   };
 
   handleItemPress = (country) => {
@@ -79,6 +75,12 @@ class Home extends React.Component {
     navigation.navigate('Details', { country });
   };
 }
+
+Home.propTypes = {
+  countries: PropTypes.array.isRequired,
+  reducedCountries: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+};
 
 const styles = EStyleSheet.create({
   searchHeaderContainer: {
@@ -96,7 +98,6 @@ const styles = EStyleSheet.create({
     width: 16,
     height: 16,
     marginHorizontal: 8,
-    fontFamily: "Roboto",
   },
   searchHeaderTextInput: {
     height: 40,
@@ -106,7 +107,16 @@ const styles = EStyleSheet.create({
     justifyContent: "center"
   }
 });
-export default inject((stores, props) => {
-  const { countriesStore } = stores;
-  return { countriesStore };
-})(observer(Home));
+
+const mapStateToProps = state => {
+  const isFetching = state.countries.isFetching;
+  const countries = state.countries.countries;
+  const reducedCountries = state.countries.reducedCountries;
+  return {
+    isFetching,
+    countries,
+    reducedCountries,
+  };
+};
+
+export default connect(mapStateToProps)(Home);

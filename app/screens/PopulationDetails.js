@@ -1,36 +1,36 @@
 import React from "react";
 import { View, Text, ActivityIndicator, FlatList } from "react-native";
-import { inject, observer } from "mobx-react";
+import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import PropTypes from "prop-types";
 import { PopulationListItem, Seperator } from "../components/List";
+import { fetchPopulation } from '../actions/population';
 class PopulationDetails extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: `${navigation.state.params.country ? navigation.state.params.country : ""}`,
   });
 
-  componentWillMount() {
-    const { populationStore } = this.props;
-    populationStore.loadPopulation();
+  constructor(props) {
+    super(props);
+    const country = props.navigation.getParam("country");
+    this.props.dispatch(fetchPopulation(country));
   }
 
   render() {
-    const { populationStore } = this.props;
-
+    const { isFetching, table } = this.props;
     return (
       <View>
-        {populationStore.loading ? (
+        {isFetching ? (
           <ActivityIndicator size="large" color={EStyleSheet.value('$colorPrimaryDark')} />
         ) : (
             <View>
               <FlatList
-                data={populationStore.populationTable}
+                data={table}
                 renderItem={({ item }) =>
                   <PopulationListItem
                     item={item}
                   />
                 }
-                keyExtractor={item => item}
                 ItemSeparatorComponent={Seperator} />
             </View>
           )}
@@ -45,13 +45,16 @@ PopulationDetails.propTypes = {
 
 
 const styles = EStyleSheet.create({
-  
-});
-export default inject((stores, props) => {
-  const { populationDetailsStore } = stores;
-  const { navigation } = props;
-  const country = navigation.getParam("country");
-  const populationStore = populationDetailsStore.getPopulationByCountry(country);
 
-  return { populationStore };
-})(observer(PopulationDetails));
+});
+
+const mapStateToProps = state => {
+  const { isFetching, table } = state.population;
+  return {
+    isFetching,
+    table,
+  };
+}
+
+
+export default connect(mapStateToProps)(PopulationDetails);

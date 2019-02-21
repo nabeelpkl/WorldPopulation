@@ -8,14 +8,16 @@
   },
   "dependencies": {
     "fast-memoize": "^2.5.1",
-    "mobx": "^4.3.1",
-    "mobx-react": "^5.1.0",
     "prop-types": "^15.6.2",
     "react": "16.6.3",
     "react-native": "0.58.1",
     "react-native-extended-stylesheet": "^0.11.1",
     "react-native-gesture-handler": "^1.0.15",
     "react-navigation": "^3.0.9",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^1.0.1",
     "utils": "file:./app/utils"
   },
   "devDependencies": {

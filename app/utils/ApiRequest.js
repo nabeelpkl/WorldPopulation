@@ -54,6 +54,10 @@ export const request = async (url, action, data, headers = {}) => {// eslint-dis
 };
 
 class ApiRequest {
+  constructor() {
+    this.makeUrl = this.makeUrl.bind(this);
+    this.request = this.request.bind(this);
+  }
   makeUrl(serviceName, path) {
     return `${server}/${serviceName}/${path}`;
   }

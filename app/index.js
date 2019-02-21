@@ -1,8 +1,9 @@
 import React from "react";
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Provider } from "mobx-react";
+import { Provider } from 'react-redux';
 import AppNavigator from "./config/routes";
-import stores from "./stores"
+import store from './config/store';
+
 EStyleSheet.build({
   $primaryColor: '#673AB7',
   $colorPrimaryDark: '#512DA8',
@@ -39,8 +40,8 @@ class Main extends React.Component {
     console.disableYellowBox = true;
 
     return (
-      <Provider {...stores}>
-        <AppNavigator />
+      <Provider store={store}>
+        <AppNavigator onNavigationStateChange={null} />
       </Provider>
     );
   }
